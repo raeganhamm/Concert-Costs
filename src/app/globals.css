@@ -1,6 +1,71 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark, cupcake, synthwave, forest;
+  themes: concert --default, concert-dark, light, dark --prefersdark, cupcake, synthwave, forest;
+}
+
+/* Coastal palette: midnight #004E64, cyan #00A5CF, green #25A18E, lime #7AE582, aqua #9FFFCB */
+@plugin "daisyui/theme" {
+  name: "concert";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #f4f9fd;
+  --color-base-200: #e8f2fa;
+  --color-base-300: #d0e4f2;
+  --color-base-content: #004e64;
+  --color-primary: #004e64;
+  --color-primary-content: #f4f9fd;
+  --color-secondary: #00a5cf;
+  --color-secondary-content: #f4f9fd;
+  --color-accent: #25a18e;
+  --color-accent-content: #f4f9fd;
+  --color-neutral: #003848;
+  --color-neutral-content: #9fffcb;
+  --color-info: #00a5cf;
+  --color-info-content: #f4f9fd;
+  --color-success: #25a18e;
+  --color-success-content: #f4f9fd;
+  --color-warning: #d97706;
+  --color-warning-content: #fffbeb;
+  --color-error: #dc2626;
+  --color-error-content: #fef2f2;
+
+  --radius-selector: 0.75rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+}
+
+@plugin "daisyui/theme" {
+  name: "concert-dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: #002a36;
+  --color-base-200: #003848;
+  --color-base-300: #004e64;
+  --color-base-content: #d4fbf0;
+  --color-primary: #00a5cf;
+  --color-primary-content: #002a36;
+  --color-secondary: #25a18e;
+  --color-secondary-content: #002a36;
+  --color-accent: #7ae582;
+  --color-accent-content: #002a36;
+  --color-neutral: #001e28;
+  --color-neutral-content: #9fffcb;
+  --color-info: #00a5cf;
+  --color-info-content: #002a36;
+  --color-success: #7ae582;
+  --color-success-content: #002a36;
+  --color-warning: #fbbf24;
+  --color-warning-content: #1c1917;
+  --color-error: #f87171;
+  --color-error-content: #1c1917;
+
+  --radius-selector: 0.75rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
 }
 
 @theme inline {
@@ -106,9 +171,9 @@ h3 {
 .hero-gradient {
   background: linear-gradient(
     135deg,
-    oklch(var(--p) / 0.35) 0%,
-    oklch(var(--s) / 0.25) 45%,
-    oklch(var(--a) / 0.2) 100%
+    color-mix(in srgb, var(--color-primary) 28%, transparent) 0%,
+    color-mix(in srgb, var(--color-secondary) 22%, transparent) 45%,
+    color-mix(in srgb, var(--color-accent) 18%, transparent) 100%
   );
 }
 
@@ -118,4 +183,11 @@ h3 {
 
 .btm-nav-safe {
   padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Solid theme dropdown options (native select) */
+select.theme-select-solid,
+select.theme-select-solid option {
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
 }

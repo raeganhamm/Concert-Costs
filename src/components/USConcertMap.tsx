@@ -35,7 +35,7 @@ export function USConcertMap({ concerts }: USConcertMapProps) {
   return (
     <SectionCard
       title="Concert states"
-      description="States where you have logged concerts are blue. Other states are grey."
+      description="States with concerts match the header color; other states use your theme surface color."
       icon={Map}
     >
       <p className="min-h-[1.25rem] text-sm font-medium leading-relaxed text-base-content/80">
@@ -58,7 +58,7 @@ export function USConcertMap({ concerts }: USConcertMapProps) {
               key={location.id}
               d={location.path}
               fill={isVisited ? palette.bar : palette.mapUnvisited}
-              stroke="#ffffff"
+              stroke={palette.mapStroke}
               strokeWidth={0.75}
               className="transition-all duration-150 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40"
               aria-label={location.name}

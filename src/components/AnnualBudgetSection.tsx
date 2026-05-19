@@ -22,6 +22,7 @@ import {
 import { formatCurrency } from "@/lib/concert-metrics";
 import { SectionCard } from "@/components/SectionCard";
 import { btnPrimaryClassName, inputClassName } from "@/lib/ui-classes";
+import { getTooltipStyle } from "@/lib/chart-styles";
 
 const OVER_BUDGET_COLOR = "#ef4444";
 
@@ -32,6 +33,7 @@ type AnnualBudgetSectionProps = {
 export function AnnualBudgetSection({ concerts }: AnnualBudgetSectionProps) {
   const year = getCurrentYear();
   const palette = useChartPalette();
+  const pieTooltip = getTooltipStyle(palette);
   const { budget, loading, saving, error, saveBudget } = useAnnualBudget(year);
   const [inputValue, setInputValue] = useState("");
 
@@ -43,7 +45,7 @@ export function AnnualBudgetSection({ concerts }: AnnualBudgetSectionProps) {
 
   const chartData = useMemo(() => {
     if (annualBudget <= 0) {
-      return [{ name: "No budget set", value: 1, fill: palette.mapUnvisited }];
+      return [{ name: "No budget set", value: 1, fill: palette.pieRemaining }];
     }
 
     if (isOverBudget) {
@@ -55,9 +57,9 @@ export function AnnualBudgetSection({ concerts }: AnnualBudgetSectionProps) {
 
     return [
       { name: "Spent", value: spentPercent, fill: palette.bar },
-      { name: "Remaining", value: remainingPercent, fill: palette.mapUnvisited },
+      { name: "Remaining", value: remainingPercent, fill: palette.pieRemaining },
     ];
-  }, [annualBudget, isOverBudget, percentSpent, palette.bar, palette.mapUnvisited]);
+  }, [annualBudget, isOverBudget, percentSpent, palette.bar, palette.pieRemaining]);
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -180,6 +182,7 @@ export function AnnualBudgetSection({ concerts }: AnnualBudgetSectionProps) {
                   ))}
                 </Pie>
                 <Tooltip
+                  {...pieTooltip}
                   formatter={(value, name) => [
                     annualBudget > 0 ? `${Number(value).toFixed(1)}%` : "—",
                     String(name),

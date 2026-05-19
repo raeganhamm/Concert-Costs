@@ -6,16 +6,23 @@ import {
   applyTheme,
   DAISY_THEMES,
   getStoredTheme,
+  THEME_LABELS,
   type DaisyTheme,
 } from "@/components/themes";
 
 type ThemeSelectorProps = {
   className?: string;
   compact?: boolean;
+  /** Solid select on the navy header */
+  onPrimaryHeader?: boolean;
 };
 
-export function ThemeSelector({ className = "", compact = false }: ThemeSelectorProps) {
-  const [theme, setTheme] = useState<DaisyTheme>("light");
+export function ThemeSelector({
+  className = "",
+  compact = false,
+  onPrimaryHeader = false,
+}: ThemeSelectorProps) {
+  const [theme, setTheme] = useState<DaisyTheme>("concert");
 
   useEffect(() => {
     setTheme(getStoredTheme());
@@ -26,6 +33,14 @@ export function ThemeSelector({ className = "", compact = false }: ThemeSelector
     setTheme(value);
     applyTheme(value);
   }
+
+  const selectClass = [
+    "theme-select-solid",
+    "select select-bordered select-sm w-full bg-base-100 text-base-content border-base-300",
+    onPrimaryHeader ? "shadow-sm" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <label className={`form-control w-full max-w-xs ${className}`}>
@@ -38,18 +53,17 @@ export function ThemeSelector({ className = "", compact = false }: ThemeSelector
         </div>
       )}
       <select
-        className="select select-bordered select-sm w-full capitalize"
+        className={selectClass}
         value={theme}
         onChange={(e) => handleChange(e.target.value)}
         aria-label="Choose app theme"
       >
         {DAISY_THEMES.map((item) => (
-          <option key={item} value={item}>
-            {item}
+          <option key={item} value={item} className="bg-base-100 text-base-content">
+            {THEME_LABELS[item]}
           </option>
         ))}
       </select>
     </label>
   );
 }
-
